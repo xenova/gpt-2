@@ -1,5 +1,5 @@
 __pycache__
 .mypy_cache/
-models/
-checkpoint
-samples
+src/models/
+src/checkpoint/
+src/samples/
