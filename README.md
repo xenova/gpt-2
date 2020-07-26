@@ -1,5 +1,3 @@
-**Status:** Archive (code is provided as-is, no updates expected)
-
 # gpt-2
 
 Code and models from the paper ["Language Models are Unsupervised Multitask Learners"](https://d4mucfpksywv.cloudfront.net/better-language-models/language-models.pdf).
@@ -84,9 +82,6 @@ mpirun -np 4 \
 | WARNING: Samples are unfiltered and may contain offensive content. |
 | --- |
 
-While we have not yet released GPT-2 itself, you can see some samples from it in the `gpt-2-samples` folder.
-We show unconditional samples with default settings (temperature 1 and no truncation), with temperature 0.7, and with truncation with top_k 40.
-We show conditional samples, with contexts drawn from `WebText`'s test set, with default settings (temperature 1 and no truncation), with temperature 0.7, and with truncation with top_k 40.
 
 ## Citation
 
