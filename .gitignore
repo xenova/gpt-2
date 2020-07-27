@@ -1,6 +1,0 @@
-__pycache__
-.mypy_cache/
-src/models/
-src/checkpoint/
-src/samples/
-src/datasets/
