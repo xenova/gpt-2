@@ -53,7 +53,12 @@ def sample_model(
 	elif length > hparams.n_ctx:
 		raise ValueError("Can't get samples longer than window size: %s" % hparams.n_ctx)
 
-	with tf.Session(graph=tf.Graph()) as sess:
+	config = tf.ConfigProto(
+		# gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.8)
+	)
+	config.gpu_options.allow_growth = True
+
+	with tf.Session(config=config,graph=tf.Graph()) as sess:
 		np.random.seed(seed)
 		tf.set_random_seed(seed)
 
