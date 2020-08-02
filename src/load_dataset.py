@@ -20,8 +20,7 @@ def load_dataset(enc, path, combine, encoding=None):
 		paths = glob.glob(path)
 
 	token_chunks = []
-	raw_text = []
-	raw_text_len = 0
+	raw_text = ''
 	for path in tqdm.tqdm(paths):
 		if path.endswith('.npz'):
 			# Pre-encoded
@@ -31,16 +30,15 @@ def load_dataset(enc, path, combine, encoding=None):
 		else:
 			# Plain text
 			with open(path, 'r', encoding=encoding) as fp:
-				text = fp.read()
-				raw_text.append(text)
-				raw_text_len += len(text)
-			if raw_text_len >= combine:
-				tokens = np.hstack([enc.encode(entry)+[enc.encoder['<|endoftext|>']] for entry in raw_text])
+				raw_text += fp.read()
+			if len(raw_text) >= combine:
+				tokens = np.stack(enc.encode(raw_text))
 				token_chunks.append(tokens)
-				raw_text = []
-				raw_text_len = 0
+				raw_text = ''
+			else:
+				raw_text += '<|endoftext|>'
 	if raw_text:
-		tokens = np.hstack([enc.encode(entry)+[enc.encoder['<|endoftext|>']] for entry in raw_text])
+		tokens = np.stack(enc.encode(raw_text))
 		token_chunks.append(tokens)
 	return token_chunks
 
@@ -59,7 +57,6 @@ def binary_search(f, lo, hi):
 
 class Sampler(object):
 	"""Fairly samples a slice from a set of variable sized chunks.
-
 	'Fairly' means that the distribution is the same as sampling from one concatenated chunk,
 	but without crossing chunk boundaries."""
 
